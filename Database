@@ -1,0 +1,217 @@
+CREATE DATABASE IF NOT EXISTS ML;
+USE ML;
+
+-- 1. Users
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Role VARCHAR(50) CHECK (Role IN ('Admin','Data Scientist','Client'))
+);
+
+INSERT INTO Users (UserID, Name, Email, Role) VALUES
+(1, 'Alice Johnson', 'alice@example.com', 'Admin'),
+(2, 'Bob Smith', 'bob@example.com', 'Data Scientist'),
+(3, 'Charlie Lee', 'charlie@example.com', 'Client'),
+(4, 'David Kim', 'david@example.com', 'Client'),
+(5, 'Eva Brown', 'eva@example.com', 'Data Scientist'),
+(6, 'Frank Wright', 'frank@example.com', 'Admin'),
+(7, 'Grace Miller', 'grace@example.com', 'Client'),
+(8, 'Henry Clark', 'henry@example.com', 'Data Scientist'),
+(9, 'Ivy Wilson', 'ivy@example.com', 'Admin'),
+(10, 'Jack Turner', 'jack@example.com', 'Client');
+
+SELECT * FROM Users;
+
+-- 2. Datasets
+CREATE TABLE Datasets (
+    DatasetID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100) NOT NULL,
+    Description varchar(1000),
+    Source VARCHAR(100),
+    UploadedBy INT,
+    FOREIGN KEY (UploadedBy) REFERENCES Users(UserID)
+);
+
+INSERT INTO Datasets (Name, Description, Source, UploadedBy) VALUES
+('Customer Purchase Data', 'Past purchase history', 'CSV file', 2),
+('Loan Applications', 'Loan approval and rejection', 'Database Export', 2),
+('Product Reviews', 'E-commerce product reviews', 'API', 5),
+('Health Records', 'Hospital patient data', 'CSV file', 8),
+('Weather Data', 'Daily weather statistics', 'Web Scraper', 5),
+('Stock Prices', 'Historical stock prices', 'CSV file', 8),
+('Sales Data', 'Monthly sales figures', 'Excel', 2),
+('Social Media Posts', 'Twitter sentiment data', 'API', 5),
+('Traffic Data', 'City traffic counts', 'Sensor Network', 8),
+('Housing Prices', 'Real estate price history', 'Database Export', 2);
+
+SELECT * FROM Datasets;
+
+-- 3. Projects
+CREATE TABLE Projects (
+    ProjectID INT PRIMARY KEY AUTO_INCREMENT,
+    ProjectName VARCHAR(100) NOT NULL,
+    Description varchar(1000),
+    StartDate DATE,
+    EndDate DATE,
+    OwnerID INT,
+    FOREIGN KEY (OwnerID) REFERENCES Users(UserID)
+);
+
+INSERT INTO Projects (ProjectName, Description, StartDate, EndDate, OwnerID) VALUES
+('Loan Default Prediction', 'Predict loan defaults', '2025-01-10', NULL, 2),
+('Customer Segmentation', 'Group customers', '2025-02-15', NULL, 2),
+('Product Review Analysis', 'Analyze sentiments', '2025-03-01', NULL, 5),
+('Health Risk Assessment', 'Predict disease risk', '2025-03-10', NULL, 8),
+('Weather Forecasting', 'Short-term forecasts', '2025-04-01', NULL, 5),
+('Stock Price Prediction', 'Predict stock prices', '2025-04-15', NULL, 8),
+('Sales Forecasting', 'Monthly sales forecast', '2025-05-01', NULL, 2),
+('Social Media Trends', 'Detect trending topics', '2025-05-10', NULL, 5),
+('Traffic Flow Prediction', 'Predict traffic patterns', '2025-06-01', NULL, 8),
+('Housing Price Estimation', 'Predict house prices', '2025-06-15', NULL, 2);
+
+SELECT * FROM Projects;
+
+-- 4. Models
+CREATE TABLE Models (
+    ModelID INT PRIMARY KEY AUTO_INCREMENT,
+    ModelName VARCHAR(100) NOT NULL,
+    Algorithm VARCHAR(50),
+    Accuracy float,
+    ProjectID INT,
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+);
+
+INSERT INTO Models (ModelName, Algorithm, Accuracy, ProjectID) VALUES
+('LoanPredictorV1', 'Logistic Regression', 85.50, 1),
+('CustomerClusterV1', 'K-Means', 90.20, 2),
+('ReviewSentimentV1', 'Naive Bayes', 88.75, 3),
+('HealthRiskV1', 'Random Forest', 92.30, 4),
+('WeatherForecastV1', 'ARIMA', 86.40, 5),
+('StockPredictorV1', 'LSTM', 93.10, 6),
+('SalesForecastV1', 'XGBoost', 91.20, 7),
+('TrendDetectorV1', 'BERT', 89.50, 8),
+('TrafficPredictorV1', 'GRU', 90.00, 9),
+('HousePriceEstimatorV1', 'Linear Regression', 87.60, 10);
+
+SELECT * FROM Models;
+
+-- 5. ModelVersions
+CREATE TABLE ModelVersions (
+    VersionID INT PRIMARY KEY AUTO_INCREMENT,
+    ModelID INT,
+    VersionNumber VARCHAR(20),
+    Changes varchar(1000),
+    DateCreated DATE,
+    FOREIGN KEY (ModelID) REFERENCES Models(ModelID)
+);
+
+INSERT INTO ModelVersions (ModelID, VersionNumber, Changes, DateCreated) VALUES
+(1, 'v1.0', 'Initial model', '2025-01-15'),
+(1, 'v1.1', 'Improved features', '2025-02-01'),
+(2, 'v1.0', 'Initial clustering', '2025-02-20'),
+(3, 'v1.0', 'Basic sentiment analysis', '2025-03-05'),
+(4, 'v1.0', 'Base health model', '2025-03-15'),
+(5, 'v1.0', 'Initial weather model', '2025-04-05'),
+(6, 'v1.0', 'Base stock predictor', '2025-04-20'),
+(7, 'v1.0', 'Initial sales model', '2025-05-05'),
+(8, 'v1.0', 'Base trend detection', '2025-05-15'),
+(9, 'v1.0', 'Base traffic model', '2025-06-05');
+
+SELECT * FROM ModelVersions;
+
+-- 6. Predictions
+CREATE TABLE Predictions (
+    PredictionID INT PRIMARY KEY AUTO_INCREMENT,
+    ModelID INT,
+    InputData varchar(1000),
+    OutputPrediction varchar(1000),
+    PredictionDate DATE,
+    FOREIGN KEY (ModelID) REFERENCES Models(ModelID)
+);
+
+INSERT INTO Predictions (ModelID, InputData, OutputPrediction, PredictionDate) VALUES
+(1, '{"income":50000}', 'Approved', '2025-02-05'),
+(2, '{"age":25}', 'Cluster 3', '2025-02-25'),
+(3, '{"review":"good"}', 'Positive', '2025-03-10'),
+(4, '{"age":60}', 'High Risk', '2025-03-20'),
+(5, '{"temp":30}', 'Sunny', '2025-04-10'),
+(6, '{"stock":"AAPL"}', 'Increase', '2025-04-25'),
+(7, '{"month":"June"}', 'High Sales', '2025-05-10'),
+(8, '{"topic":"AI"}', 'Trending', '2025-05-20'),
+(9, '{"road":"Main"}', 'Heavy Traffic', '2025-06-10'),
+(10, '{"house":"3BHK"}', '250000', '2025-06-20');
+
+SELECT * FROM Predictions;
+
+-- 7. Feedback
+CREATE TABLE Feedback (
+    FeedbackID INT PRIMARY KEY AUTO_INCREMENT,
+    PredictionID INT,
+    UserID INT,
+    Comments varchar(1000),
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),
+    FOREIGN KEY (PredictionID) REFERENCES Predictions(PredictionID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+INSERT INTO Feedback (PredictionID, UserID, Comments, Rating) VALUES
+(1, 3, 'Accurate prediction', 5),
+(2, 3, 'Good segmentation', 4),
+(3, 4, 'Useful analysis', 5),
+(4, 5, 'Matched my condition', 4),
+(5, 6, 'Correct weather forecast', 5),
+(6, 7, 'Accurate stock prediction', 5),
+(7, 8, 'Helpful forecast', 4),
+(8, 9, 'Relevant trending topics', 5),
+(9, 10, 'Accurate traffic prediction', 4),
+(10, 2, 'House price estimate was close', 5);
+
+SELECT * FROM Feedback;
+
+-- 8. Reports
+CREATE TABLE Reports (
+    ReportID INT PRIMARY KEY AUTO_INCREMENT,
+    ModelID INT,
+    ReportDate DATE,
+    Content varchar(1000),
+    FOREIGN KEY (ModelID) REFERENCES Models(ModelID)
+);
+
+INSERT INTO Reports (ModelID, ReportDate, Content) VALUES
+(1, '2025-02-07', 'Precision 0.88, Recall 0.84'),
+(2, '2025-02-27', 'Clustering score 0.92'),
+(3, '2025-03-12', 'Sentiment accuracy 0.89'),
+(4, '2025-03-25', 'Health model accuracy 0.93'),
+(5, '2025-04-12', 'Weather forecast accuracy 0.87'),
+(6, '2025-04-28', 'Stock predictor RMSE 2.1'),
+(7, '2025-05-12', 'Sales forecast MAE 1.5'),
+(8, '2025-05-22', 'Trend detection F1 0.91'),
+(9, '2025-06-12', 'Traffic prediction accuracy 0.90'),
+(10, '2025-06-22', 'House price R2 0.88');
+
+SELECT * FROM Reports;
+
+-- 9. TeamMembers
+CREATE TABLE TeamMembers (
+    TeamMemberID INT PRIMARY KEY AUTO_INCREMENT,
+    ProjectID INT,
+    UserID INT,
+    Role VARCHAR(50),
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+INSERT INTO TeamMembers (ProjectID, UserID, Role) VALUES
+(1, 2, 'Lead'),
+(1, 3, 'Contributor'),
+(2, 2, 'Lead'),
+(3, 5, 'Lead'),
+(4, 8, 'Lead'),
+(5, 5, 'Lead'),
+(6, 8, 'Lead'),
+(7, 2, 'Lead'),
+(8, 5, 'Lead'),
+(9, 8, 'Lead');
+
+SELECT * FROM TeamMembers;
