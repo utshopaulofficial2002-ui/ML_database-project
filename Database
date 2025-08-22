@@ -60,10 +60,10 @@ CREATE TABLE Projects (
 
 INSERT INTO Projects (ProjectName, Description, StartDate, EndDate, OwnerID) VALUES
 ('Loan Default Prediction', 'Predict loan defaults', '2025-01-10', NULL, 2),
-('Customer Segmentation', 'Group customers', '2025-02-15', NULL, 2),
+('Customer Segmentation', 'Group customers', '2025-02-15','2025-05-20', 2),
 ('Product Review Analysis', 'Analyze sentiments', '2025-03-01', NULL, 5),
 ('Health Risk Assessment', 'Predict disease risk', '2025-03-10', NULL, 8),
-('Weather Forecasting', 'Short-term forecasts', '2025-04-01', NULL, 5),
+('Weather Forecasting', 'Short-term forecasts', '2025-04-01','2025-06-01', 5),
 ('Stock Price Prediction', 'Predict stock prices', '2025-04-15', NULL, 8),
 ('Sales Forecasting', 'Monthly sales forecast', '2025-05-01', NULL, 2),
 ('Social Media Trends', 'Detect trending topics', '2025-05-10', NULL, 5),
