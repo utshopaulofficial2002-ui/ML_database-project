@@ -21,7 +21,7 @@ INSERT INTO Users (UserID, Name, Email, Role) VALUES
 (9, 'Ivy Wilson', 'ivy@example.com', 'Admin'),
 (10, 'Jack Turner', 'jack@example.com', 'Client');
 
-SELECT * FROM Users;
+
 
 -- 2. Datasets
 CREATE TABLE Datasets (
@@ -45,7 +45,7 @@ INSERT INTO Datasets (Name, Description, Source, UploadedBy) VALUES
 ('Traffic Data', 'City traffic counts', 'Sensor Network', 8),
 ('Housing Prices', 'Real estate price history', 'Database Export', 2);
 
-SELECT * FROM Datasets;
+
 
 -- 3. Projects
 CREATE TABLE Projects (
@@ -70,7 +70,7 @@ INSERT INTO Projects (ProjectName, Description, StartDate, EndDate, OwnerID) VAL
 ('Traffic Flow Prediction', 'Predict traffic patterns', '2025-06-01', NULL, 8),
 ('Housing Price Estimation', 'Predict house prices', '2025-06-15', NULL, 2);
 
-SELECT * FROM Projects;
+
 
 -- 4. Models
 CREATE TABLE Models (
@@ -94,7 +94,7 @@ INSERT INTO Models (ModelName, Algorithm, Accuracy, ProjectID) VALUES
 ('TrafficPredictorV1', 'GRU', 90.00, 9),
 ('HousePriceEstimatorV1', 'Linear Regression', 87.60, 10);
 
-SELECT * FROM Models;
+
 
 -- 5. ModelVersions
 CREATE TABLE ModelVersions (
@@ -118,7 +118,7 @@ INSERT INTO ModelVersions (ModelID, VersionNumber, Changes, DateCreated) VALUES
 (8, 'v1.0', 'Base trend detection', '2025-05-15'),
 (9, 'v1.0', 'Base traffic model', '2025-06-05');
 
-SELECT * FROM ModelVersions;
+
 
 -- 6. Predictions
 CREATE TABLE Predictions (
@@ -142,7 +142,7 @@ INSERT INTO Predictions (ModelID, InputData, OutputPrediction, PredictionDate) V
 (9, '{"road":"Main"}', 'Heavy Traffic', '2025-06-10'),
 (10, '{"house":"3BHK"}', '250000', '2025-06-20');
 
-SELECT * FROM Predictions;
+
 
 -- 7. Feedback
 CREATE TABLE Feedback (
@@ -167,7 +167,7 @@ INSERT INTO Feedback (PredictionID, UserID, Comments, Rating) VALUES
 (9, 10, 'Accurate traffic prediction', 4),
 (10, 2, 'House price estimate was close', 5);
 
-SELECT * FROM Feedback;
+
 
 -- 8. Reports
 CREATE TABLE Reports (
@@ -190,7 +190,7 @@ INSERT INTO Reports (ModelID, ReportDate, Content) VALUES
 (9, '2025-06-12', 'Traffic prediction accuracy 0.90'),
 (10, '2025-06-22', 'House price R2 0.88');
 
-SELECT * FROM Reports;
+
 
 -- 9. TeamMembers
 CREATE TABLE TeamMembers (
@@ -206,7 +206,7 @@ INSERT INTO TeamMembers (ProjectID, UserID, Role) VALUES
 (1, 2, 'Lead'),
 (1, 3, 'Contributor'),
 (2, 2, 'Lead'),
-(3, 5, 'Lead'),
+(2, 5, 'Contributor'),
 (4, 8, 'Lead'),
 (5, 5, 'Lead'),
 (6, 8, 'Lead'),
@@ -214,4 +214,13 @@ INSERT INTO TeamMembers (ProjectID, UserID, Role) VALUES
 (8, 5, 'Lead'),
 (9, 8, 'Lead');
 
+-- Printing Tables
+SELECT * FROM Users;
+SELECT * FROM Datasets;
+SELECT * FROM Projects;
+SELECT * FROM Models;
+SELECT * FROM ModelVersions;
+SELECT * FROM Predictions;
+SELECT * FROM Feedback;
+SELECT * FROM Reports;
 SELECT * FROM TeamMembers;
